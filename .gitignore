@@ -1,0 +1,54 @@
+### Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+### Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+### Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+### PyInstaller
+*.manifest
+*.spec.bak
+
+### Caches / tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+### Logs
+*.log
+
+### Local environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+
+### Databases / local state
+*.db
+*.sqlite
+*.sqlite3
+
+### Uploads / user content
+uploads/
+
+### IDEs / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
