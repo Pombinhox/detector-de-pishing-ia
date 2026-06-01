@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+sqlalchemy
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+jinja2
+python-whois
+pytesseract
+pyzbar
+opencv-python-headless
+pillow
+python-magic
+reportlab
+pandas
+requests
+numpy

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefensAI - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-container { width: 100%; max-width: 1200px; margin: 0 auto; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .table-container { background: var(--glass-bg); backdrop-filter: blur(16px); border-radius: 1rem; border: 1px solid var(--glass-border); padding: 1.5rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: #94a3b8; font-weight: 500; }
+        .badge { padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.85rem; font-weight: 600; }
+        .badge-safe { background: rgba(16, 185, 129, 0.2); color: var(--success-color); }
+        .badge-warning { background: rgba(245, 158, 11, 0.2); color: var(--warning-color); }
+        .badge-danger { background: rgba(239, 68, 68, 0.2); color: var(--danger-color); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> DefensAI
+        </div>
+        <nav>
+            <a href="/">Scanner</a>
+            <a href="/dashboard" style="color: var(--primary-color);">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="dashboard-container">
+            <h2 style="margin-bottom: 2rem;">Analysis History</h2>
+            
+            <div class="stats-grid">
+                <div class="score-card">
+                    <h3>Total Scans</h3>
+                    <div class="score-value">--</div>
+                </div>
+                <div class="score-card">
+                    <h3>High Risk</h3>
+                    <div class="score-value status-danger">--</div>
+                </div>
+                <div class="score-card">
+                    <h3>AI Detected</h3>
+                    <div class="score-value status-warning">--</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Filename</th>
+                            <th>Risk Score</th>
+                            <th>Classification</th>
+                            <th>AI Probability</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: #64748b;">
+                                Connect DB fetch here...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

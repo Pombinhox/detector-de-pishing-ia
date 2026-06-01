@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefensAI - OSINT Image Analysis</title>
+    <meta name="description" content="Detecte phishing visual, OSINT e conteúdo gerado por IA em imagens com tecnologia avançada de análise.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ── Hidden Codes Section ─────────────────────────────── */
+        .hidden-codes-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.06));
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 1.2rem;
+        }
+        .hidden-codes-section h4 {
+            color: #a78bfa;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        .code-badge-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+        .code-badge {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            background: rgba(139, 92, 246, 0.07);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 0.6rem;
+            padding: 0.65rem 0.9rem;
+            font-size: 0.82rem;
+            color: #c4b5fd;
+            line-height: 1.5;
+            word-break: break-all;
+            transition: background 0.2s;
+        }
+        .code-badge:hover {
+            background: rgba(139, 92, 246, 0.14);
+        }
+        .code-badge .badge-icon {
+            flex-shrink: 0;
+            font-size: 1rem;
+            margin-top: 1px;
+        }
+
+        /* ── Stats Bar ─────────────────────────────────────────── */
+        .stat-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-bar-label {
+            width: 160px;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .stat-bar-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #7c3aed, #06b6d4);
+            transition: width 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stat-bar-val {
+            width: 42px;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+        .stats-block {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 0.8rem;
+            padding: 1rem 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .stats-block h5 {
+            font-size: 0.78rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.9rem;
+        }
+
+        /* ── Software tag ──────────────────────────────────────── */
+        .software-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            color: #fbbf24;
+            border-radius: 2rem;
+            padding: 0.25rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        .no-codes-msg {
+            color: #22c55e;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> DefensAI
+        </div>
+        <nav>
+            <a href="/" style="color: var(--primary-color);">Scanner</a>
+            <a href="/dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h1>Advanced Threat Intelligence</h1>
+            <p>Detecte tentativas de phishing visual, analise footprints OSINT e identifique <strong>códigos ocultos gerados por IA</strong> em imagens e screenshots.</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="upload-area" id="dropZone">
+                <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                <div class="upload-text">Arraste & Solte a Imagem Aqui</div>
+                <div class="upload-hint">ou clique para selecionar o arquivo</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="loader-container" id="loader">
+                <div class="spinner"></div>
+                <p>Analisando estrutura binária, EXIF, OCR, C2PA e vetores OSINT...</p>
+            </div>
+
+            <div id="resultsArea" style="display:none;">
+                <div class="score-board">
+                    <div class="score-card">
+                        <h3>Risk Score</h3>
+                        <div class="score-value" id="resScore">--/100</div>
+                    </div>
+                    <div class="score-card">
+                        <h3>Classificação</h3>
+                        <div class="score-value" id="resClass">--</div>
+                    </div>
+                    <div class="score-card">
+                        <h3>Prob. IA</h3>
+                        <div class="score-value" id="resAI">--</div>
+                    </div>
+                </div>
+
+                <!-- ── CÓDIGOS OCULTOS DE IA ────────────────────────── -->
+                <div class="hidden-codes-section" id="hiddenCodesSection" style="display:none;">
+                    <h4><i class="fa-solid fa-microchip"></i> Códigos Gerados por IA Detectados na Imagem</h4>
+                    <div class="code-badge-list" id="hiddenCodesList"></div>
+
+                    <!-- Software tag -->
+                    <div id="softwareTagContainer" style="margin-top:1rem; display:none;">
+                        <span style="font-size:0.8rem; color:#64748b;">Software detectado:</span><br>
+                        <span class="software-tag" id="softwareTag"><i class="fa-solid fa-robot"></i> <span id="softwareTagText"></span></span>
+                    </div>
+
+                    <!-- Análise estatística -->
+                    <div class="stats-block" id="statsBlock" style="display:none;">
+                        <h5><i class="fa-solid fa-chart-bar" style="margin-right:0.4rem;"></i>Análise Estatística da Imagem</h5>
+                        <div class="stat-bar-row">
+                            <span class="stat-bar-label">Uniformidade LSB</span>
+                            <div class="stat-bar-track"><div class="stat-bar-fill" id="lsbBar" style="width:0%"></div></div>
+                            <span class="stat-bar-val" id="lsbVal">0%</span>
+                        </div>
+                        <div class="stat-bar-row">
+                            <span class="stat-bar-label">Energia DCT</span>
+                            <div class="stat-bar-track"><div class="stat-bar-fill" id="dctBar" style="width:0%"></div></div>
+                            <span class="stat-bar-val" id="dctVal">0%</span>
+                        </div>
+                        <div class="stat-bar-row">
+                            <span class="stat-bar-label" title="Nitidez da imagem">Variância Laplaciana</span>
+                            <div class="stat-bar-track"><div class="stat-bar-fill" id="lapBar" style="width:0%"></div></div>
+                            <span class="stat-bar-val" id="lapVal">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sem códigos ocultos -->
+                <div id="noCodesSection" style="display:none; margin-top: 1rem; padding: 1rem 1.2rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.2); border-radius: 0.8rem;">
+                    <span class="no-codes-msg"><i class="fa-solid fa-circle-check"></i> Nenhum código ou assinatura de IA encontrado no binário da imagem.</span>
+                </div>
+
+                <!-- ── PHISHING FINDINGS ───────────────────────────── -->
+                <div class="details-section" id="phishingSection" style="display:none;">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Phishing &amp; OSINT Findings</h4>
+                    <ul class="details-list" id="phishingList"></ul>
+                </div>
+
+                <!-- ── AI INDICATORS ──────────────────────────────── -->
+                <div class="details-section" id="aiSection" style="display:none;">
+                    <h4><i class="fa-solid fa-robot"></i> AI Detection Indicators</h4>
+                    <ul class="details-list" id="aiList"></ul>
+                </div>
+
+                <div class="export-actions">
+                    <button class="btn btn-secondary" onclick="exportReport('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF Report</button>
+                    <button class="btn btn-secondary" onclick="exportReport('json')"><i class="fa-solid fa-file-code"></i> JSON Data</button>
+                    <button class="btn" onclick="resetScanner()"><i class="fa-solid fa-rotate-right"></i> New Scan</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
